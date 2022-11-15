@@ -1,0 +1,5 @@
+Set-NetFirewallProfile -Profile private,domain -Enabled False
+Install-WindowsFeature Net-Framework-Features -includeallsubfeature -source D:\sources\sxs
+#Install-WindowsFeature -Name Web-Server, Web-Mgmt-Tools -includeallsubfeature -includemanagementtools -source D:\sources\sxs
+Install-WindowsFeature NET-Framework-45-Core -includeallsubfeature -source D:\sources\sxs
+Add-WindowsFeature MSMQ -includeallsubfeature

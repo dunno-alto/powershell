@@ -1,0 +1,5 @@
+%comspec% /c echo @diskpart /s %temp%\assign_CDROM_letter.txt > %temp%\assign_CDROM_letter.cmd
+%comspec% /c echo select disk 0 > %temp%\assign_CDROM_letter.txt
+%comspec% /c echo select volume d >> %temp%\assign_CDROM_letter.txt
+%comspec% /c echo assign letter r noerr >> %temp%\assign_CDROM_letter.txt
+%comspec% /c %temp%\assign_CDROM_letter.cmd

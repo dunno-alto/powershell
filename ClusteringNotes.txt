@@ -1,0 +1,10 @@
+Failover Clustering install:
+Install-WindowsFeature -Name Failover-Clustering –IncludeManagementTools
+
+Create Cluster:
+New-Cluster –Name ESDSDSSQLCLS –Node ESDSDSDB01A, ESDSDSDB01B –StaticAddress 172.28.209.20
+
+Find active cluster:
+get-clusternode sdi-hasql-04 | Get-ClusterGroup | Move-ClusterGroup
+
+DISM /Online /Cleanup-Image /RestoreHealth /Source:D:\Sources\install.wim

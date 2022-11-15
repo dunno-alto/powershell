@@ -1,0 +1,1 @@
+import-csv C:\SCOPE\PBFL_Exclude.txt -Delimiter ";" | % {Add-Dhcpserverv4ExclusionRange -ScopeId $_.ScopeID -StartRange $_.StartRange -EndRange $_.EndRange}

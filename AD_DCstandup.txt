@@ -1,0 +1,15 @@
+Install-WindowsFeature -name AD-Domain-Services -IncludeManagementTools
+
+Install-ADDSDomainController -InstallDns -Credential (Get-Credential "sdsprod\altos.da") -DomainName "sdsprod.local" -confirm:$false
+
+$osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
+$osInfo.ProductType
+
+logoff
+
+
+Add-Computer -DomainCredential altos.da -DomainName sdsprod.local -Restart
+Set-DnsClientServerAddress -ServerAddresses ("10.220.200.11","10.220.210.11") -InterfaceIndex 
+Set-NetFirewallProfile -profile domain,public,private -confirm:$false
+
+

@@ -1,0 +1,7 @@
+$Domain = (Get-ADDomain).DistinguishedName
+($DHCPServers = Get-ADObject -SearchBase “cn=configuration,$domain” -Filter {ObjectClass -eq "dHCPClass"}).Name
+
+Foreach ($d in $DHCPServers) {
+    Get-DhcpServerv4Scope -ComputerName $d | % {Remove-DhcpServerv4OptionValue -ComputerName $d -ScopeId $_.ScopeId -OptionId 6 -confirm:$false
+    }
+}

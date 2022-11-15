@@ -1,0 +1,6 @@
+Set-netfirewallprofile -profile public,private,domain -enabled false
+
+Add-Computer -DomainCredential admin.da -DomainName isle.org -Restart
+
+10.55.2.2
+10.2.10.10

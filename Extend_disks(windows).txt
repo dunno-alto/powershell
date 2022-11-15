@@ -1,0 +1,149 @@
+#Copy below and paste to target SQL server
+
+Initialize-Disk -Number 1 -PartitionStyle MBR
+Initialize-Disk -Number 2 -PartitionStyle MBR
+Initialize-Disk -Number 3 -PartitionStyle MBR
+Initialize-Disk -Number 4 -PartitionStyle MBR
+Initialize-Disk -Number 5 -PartitionStyle MBR
+
+#For SQL
+
+New-Partition -DiskNumber 1 -UseMaximumSize -IsActive -DriveLetter S
+New-Partition -DiskNumber 2 -UseMaximumSize -IsActive -DriveLetter L
+New-Partition -DiskNumber 3 -UseMaximumSize -IsActive -DriveLetter T
+New-Partition -DiskNumber 4 -UseMaximumSize -IsActive -DriveLetter X
+New-Partition -DiskNumber 5 -UseMaximumSize -IsActive -DriveLetter P
+
+Format-Volume -DriveLetter S -FileSystem NTFS -NewFileSystemLabel DATA -AllocationUnitSize 65536 
+
+Format-Volume -DriveLetter L -FileSystem NTFS -NewFileSystemLabel LOGS -AllocationUnitSize 65536 
+
+Format-Volume -DriveLetter T -FileSystem NTFS -NewFileSystemLabel TEMP -AllocationUnitSize 65536 
+
+Format-Volume -DriveLetter X -FileSystem NTFS -NewFileSystemLabel BACKUP
+
+Format-Volume -DriveLetter P -FileSystem NTFS -NewFileSystemLabel APP
+
+logoff
+
+
+
+
+#rescan disks
+Update-Disk
+0
+1
+2
+3
+4
+5
+
+####Resize Partition Max
+$MaxSize = (Get-PartitionSupportedSize -DriveLetter c).sizeMax
+Resize-Partition -DriveLetter c -Size $MaxSize
+
+$MaxSize = (Get-PartitionSupportedSize -DriveLetter s).sizeMax
+Resize-Partition -DriveLetter s -Size $MaxSize
+$MaxSize = (Get-PartitionSupportedSize -DriveLetter l).sizeMax
+Resize-Partition -DriveLetter l -Size $MaxSize
+$MaxSize = (Get-PartitionSupportedSize -DriveLetter x).sizeMax
+Resize-Partition -DriveLetter x -Size $MaxSize
+$MaxSize = (Get-PartitionSupportedSize -DriveLetter t).sizeMax
+Resize-Partition -DriveLetter t -Size $MaxSize
+
+$MaxSize = (Get-PartitionSupportedSize -DriveLetter p).sizeMax
+Resize-Partition -DriveLetter p -Size $MaxSize
+Logoff
+
+Initialize-Disk -Number 1 -PartitionStyle MBR
+New-Partition -DiskNumber 1 -UseMaximumSize -IsActive -DriveLetter P
+Format-Volume -DriveLetter P -FileSystem NTFS -NewFileSystemLabel App #-AllocationUnitSize 65536 
+
+
+Initialize-Disk -Number 2 -PartitionStyle MBR
+New-Partition -DiskNumber 2 -UseMaximumSize -IsActive -DriveLetter D
+Format-Volume -DriveLetter D -FileSystem NTFS -NewFileSystemLabel SQLDATA
+
+# CZRSDSDB Drive Build
+
+# Set CD/DVD Drive to R:
+
+Get-WmiObject -Class Win32_volume -Filter 'DriveType=5' |
+  Select-Object -First 1 |
+  Set-WmiInstance -Arguments @{DriveLetter='R:'}
+
+# Initialize-Disk and Bring Disks online with SQL drive allocation bit size
+
+Initialize-Disk -Number 1 -PartitionStyle MBR
+Initialize-Disk -Number 2 -PartitionStyle MBR
+Initialize-Disk -Number 3 -PartitionStyle MBR
+Initialize-Disk -Number 4 -PartitionStyle MBR
+Initialize-Disk -Number 5 -PartitionStyle MBR
+Initialize-Disk -Number 6 -PartitionStyle MBR
+
+New-Partition -DiskNumber 1 -UseMaximumSize -IsActive -DriveLetter D
+New-Partition -DiskNumber 2 -UseMaximumSize -IsActive -DriveLetter E
+New-Partition -DiskNumber 3 -UseMaximumSize -IsActive -DriveLetter L
+New-Partition -DiskNumber 4 -UseMaximumSize -IsActive -DriveLetter S
+New-Partition -DiskNumber 5 -UseMaximumSize -IsActive -DriveLetter T
+New-Partition -DiskNumber 6 -UseMaximumSize -IsActive -DriveLetter Y
+
+Format-Volume -DriveLetter D -FileSystem NTFS -NewFileSystemLabel Data  
+
+
+
+
+
+
+#Copy below and paste to target SQL server
+
+Get-WmiObject -Class Win32_volume -Filter 'DriveType=5' |
+  Select-Object -First 1 |
+  Set-WmiInstance -Arguments @{DriveLetter='R:'}
+
+Initialize-Disk -Number 1 -PartitionStyle MBR
+Initialize-Disk -Number 2 -PartitionStyle MBR
+Initialize-Disk -Number 3 -PartitionStyle MBR
+Initialize-Disk -Number 4 -PartitionStyle MBR
+Initialize-Disk -Number 5 -PartitionStyle MBR
+Initialize-Disk -Number 6 -PartitionStyle MBR
+
+#For SQL
+
+New-Partition -DiskNumber 1 -UseMaximumSize -IsActive -DriveLetter D
+New-Partition -DiskNumber 2 -UseMaximumSize -IsActive -DriveLetter E
+New-Partition -DiskNumber 3 -UseMaximumSize -IsActive -DriveLetter L
+New-Partition -DiskNumber 4 -UseMaximumSize -IsActive -DriveLetter T
+New-Partition -DiskNumber 5 -UseMaximumSize -IsActive -DriveLetter Y
+New-Partition -DiskNumber 6 -UseMaximumSize -IsActive -DriveLetter S
+
+Format-Volume -DriveLetter D -FileSystem NTFS -NewFileSystemLabel SQLDATA -AllocationUnitSize 65536 
+Format-Volume -DriveLetter E -FileSystem NTFS -NewFileSystemLabel SQLMISC
+Format-Volume -DriveLetter L -FileSystem NTFS -NewFileSystemLabel SQLTLOG -AllocationUnitSize 65536 
+Format-Volume -DriveLetter T -FileSystem NTFS -NewFileSystemLabel SQLTMPDB -AllocationUnitSize 65536 
+Format-Volume -DriveLetter Y -FileSystem NTFS -NewFileSystemLabel SQLBKUP
+Format-Volume -DriveLetter S -FileSystem NTFS -NewFileSystemLabel SQLREP
+
+
+
+
+
+
+Initialize-Disk -Number 1 -PartitionStyle MBR
+Initialize-Disk -Number 2 -PartitionStyle MBR
+Initialize-Disk -Number 3 -PartitionStyle MBR
+Initialize-Disk -Number 4 -PartitionStyle MBR
+Initialize-Disk -Number 5 -PartitionStyle MBR
+
+New-Partition -DiskNumber 1 -UseMaximumSize -IsActive -DriveLetter D
+New-Partition -DiskNumber 2 -UseMaximumSize -IsActive -DriveLetter L
+New-Partition -DiskNumber 3 -UseMaximumSize -IsActive -DriveLetter S
+New-Partition -DiskNumber 4 -UseMaximumSize -IsActive -DriveLetter T
+New-Partition -DiskNumber 5 -UseMaximumSize -IsActive -DriveLetter Y
+
+
+Format-Volume -DriveLetter D -FileSystem NTFS -NewFileSystemLabel SQLDATA -AllocationUnitSize 65536 
+Format-Volume -DriveLetter L -FileSystem NTFS -NewFileSystemLabel SQLTLOG -AllocationUnitSize 65536 
+Format-Volume -DriveLetter S -FileSystem NTFS -NewFileSystemLabel SQLREP
+Format-Volume -DriveLetter T -FileSystem NTFS -NewFileSystemLabel SQLTMPDB -AllocationUnitSize 65536 
+Format-Volume -DriveLetter Y -FileSystem NTFS -NewFileSystemLabel SQLBKUP

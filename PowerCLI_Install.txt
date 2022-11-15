@@ -1,0 +1,8 @@
+Get-Host | Select-Object Version
+Find-Module -Name VMware.PowerCLI
+Install-Module -Name VMware.PowerCLI -Scope CurrentUser
+Find-Module Posh-SSH | Install-Module
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
+
