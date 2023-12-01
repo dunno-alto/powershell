@@ -90,11 +90,6 @@ New-Partition -DiskNumber 6 -UseMaximumSize -IsActive -DriveLetter Y
 
 Format-Volume -DriveLetter D -FileSystem NTFS -NewFileSystemLabel Data  
 
-
-
-
-
-
 #Copy below and paste to target SQL server
 
 Get-WmiObject -Class Win32_volume -Filter 'DriveType=5' |
@@ -124,26 +119,3 @@ Format-Volume -DriveLetter T -FileSystem NTFS -NewFileSystemLabel SQLTMPDB -Allo
 Format-Volume -DriveLetter Y -FileSystem NTFS -NewFileSystemLabel SQLBKUP
 Format-Volume -DriveLetter S -FileSystem NTFS -NewFileSystemLabel SQLREP
 
-
-
-
-
-
-Initialize-Disk -Number 1 -PartitionStyle MBR
-Initialize-Disk -Number 2 -PartitionStyle MBR
-Initialize-Disk -Number 3 -PartitionStyle MBR
-Initialize-Disk -Number 4 -PartitionStyle MBR
-Initialize-Disk -Number 5 -PartitionStyle MBR
-
-New-Partition -DiskNumber 1 -UseMaximumSize -IsActive -DriveLetter D
-New-Partition -DiskNumber 2 -UseMaximumSize -IsActive -DriveLetter L
-New-Partition -DiskNumber 3 -UseMaximumSize -IsActive -DriveLetter S
-New-Partition -DiskNumber 4 -UseMaximumSize -IsActive -DriveLetter T
-New-Partition -DiskNumber 5 -UseMaximumSize -IsActive -DriveLetter Y
-
-
-Format-Volume -DriveLetter D -FileSystem NTFS -NewFileSystemLabel SQLDATA -AllocationUnitSize 65536 
-Format-Volume -DriveLetter L -FileSystem NTFS -NewFileSystemLabel SQLTLOG -AllocationUnitSize 65536 
-Format-Volume -DriveLetter S -FileSystem NTFS -NewFileSystemLabel SQLREP
-Format-Volume -DriveLetter T -FileSystem NTFS -NewFileSystemLabel SQLTMPDB -AllocationUnitSize 65536 
-Format-Volume -DriveLetter Y -FileSystem NTFS -NewFileSystemLabel SQLBKUP
