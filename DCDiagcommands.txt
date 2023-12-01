@@ -1,1 +1,0 @@
-dcdiag /s:LUSSDSDC01.sdsprod.local /v /f:C:\it\ESD_DCdiag_Traffic_Test.log
