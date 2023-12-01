@@ -1,1 +1,1 @@
-Mount-DiskImage -ImagePath "TM972Auth.iso"
+Mount-DiskImage -ImagePath "whatever.iso"
